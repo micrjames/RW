@@ -1,0 +1,36 @@
+{
+   "type": "module",
+   "name": "express-ts-framework",
+   "version": "1.0.0",
+   "description": "A express typescript starter framework",
+   "main": "index.js",
+   "directories": {
+      "test": "tests"
+   },
+   "scripts": {
+      "prestart": "npx tsc",
+      "start": "nodemon dist/index.js",
+      "test": "jest"
+   },
+   "keywords": [
+      "webpack",
+      "framework"
+   ],
+   "author": "me",
+   "license": "MIT",
+   "devDependencies": {
+      "@types/cors": "^2.8.17",
+      "@types/express": "^4.17.21",
+      "@types/jest": "^29.5.12",
+      "@types/node": "^22.5.1",
+      "jest": "^29.7.0",
+      "nodemon": "^3.1.4",
+      "typescript": "^5.5.4"
+   },
+   "dependencies": {
+      "cors": "^2.8.5",
+      "dotenv": "^16.4.5",
+      "express": "^4.19.2",
+      "jsdom": "^24.1.0"
+   }
+}
