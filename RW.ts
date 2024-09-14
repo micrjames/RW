@@ -38,11 +38,17 @@ export class RW {
 	  this._data = this.buffer;
 	  return numBytes;
    }
+   write(offset: number = 0, position: number = 0): number {
+	  return fs.writeSync(this.fd, this._data, offset, this._data.length, position);
+   }
    get fd(): number {
 	  return this._fd;
    }
    get data(): Buffer {
 	  return this._data;
+   }
+   set data(buffer: Buffer) {
+	  this._data = buffer;
    }
    get stats(): fs.Stats {
 	  return this._stats;
