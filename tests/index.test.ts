@@ -1,4 +1,8 @@
 import { RW } from "../RW"
+import { BufferBuilder } from "../BufferBuilder";
+import { utils } from "./utils";
+import { Buffer } from "node:buffer";
+import path from "path";
 
 describe("Reading Files", () => {
    let rw: RW;
@@ -21,35 +25,32 @@ describe("Reading Files", () => {
 	  });
    });
    describe("With Reading", () => {
+	  let buffSize: number;
+	  let newBuffer: BufferBuilder;
 	  beforeAll(() => {
-		 filename = __dirname + "/file.txt";
-		 rw = new RW(filename);
+		 buffSize = 100;
+		 newBuffer = new BufferBuilder(buffSize);
+		 newBuffer.append(Buffer.from("Hello, World!")).append(utils.newlineBuffer);
+		 filename = path.join(__dirname, "/file.txt");
+		 rw = new RW(buffSize, filename);
+		 rw.read();
 	  });
 	  test("Should exist.", () => {
 		 expect(rw).not.toBeNull();
 	  });
-	  test.todo("Should not have a 'fd'");
-	  test.todo("Should not have any 'stats'");
-	  test.todo("Should not have any 'data'");
+	  test("Should have a file that exists.", () => {
+		 expect(rw.exists).toBeTruthy();
+	  });
+	  test("Should have a 'fd'", () => {
+		 expect(rw.fd).not.toBe(-1);
+	  });
+	  test("Should have 'stats'", () => {
+		 expect(rw.stats).not.toBeNull();
+	  });
+	  test("Should have 'data'", () => {
+		 newBuffer.build();
+		 const isEqual = utils.areBuffersEqual(rw.data, newBuffer.buffer);
+		 expect(isEqual).toBeTruthy();
+	  });
    });
 });
-	  /*
-		  if(err === null) {
-			 this._stats = stats;
-			 fs.open(this.fileName, this.flag, (err, fd) => {
-				if(err === null) {
-				   this._fd = fd;
-				} else if(err.code === 'ENONT') {
-				   console.log("file does not exist");
-				} else {
-				   console.log("some other error: err.code");
-				}
-			 });
-		  } else if(err.code === 'ENONT') {
-			  // file does not exist
-			  console.log("file does not exist");
-		  } else {
-			  // some other error: err.code
-			  console.log("some other error: err.code");
-		  }
-	  */
