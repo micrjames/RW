@@ -34,12 +34,18 @@ export class RW {
 	  return -1;
    }
    read(): number {
-	  const numBytes = fs.readSync(this.fd, this.buffer);
-	  this._data = this.buffer;
+	  let numBytes = 0;
+	  if(this._fd) {
+		 numBytes = fs.readSync(this._fd, this.buffer);
+		 this._data = this.buffer;
+	  }
 	  return numBytes;
    }
    write(offset: number = 0, position: number = 0): number {
-	  return fs.writeSync(this.fd, this._data, offset, this._data.length, position);
+	  let numBytes = 0;
+	  if(this._fd && this._data)
+		 numBytes = fs.writeSync(this.fd, this._data, offset, this._data.length, position);
+	  return numBytes;
    }
    get fd(): number {
 	  return this._fd;
