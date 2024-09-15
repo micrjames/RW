@@ -59,4 +59,7 @@ export class RW {
    get stats(): fs.Stats {
 	  return this._stats;
    }
+   close() {
+	  return fs.closeSync(this.fd);
+   }
 }

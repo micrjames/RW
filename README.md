@@ -46,7 +46,7 @@ Using the *read* method, we have obtained the *data*, which is *Buffer-typed*. T
 ```
 const buffer = rw.data;
 ```
-By use of either the *toString* or *toJSON* methods of the *Buffer* class we can have access to the contents of the *buffer*.
+By use of the *toString* method of the *Buffer* class we can have access to the contents of the *buffer*.
 As for writing data to a file, we have the *write* method to do so. Below, we write our string, *text*, to a *Buffer-typed* variable, buffer. Then, we must write that buffer to the setter *data*. Now, in a similar fashion to the *read* method, we, then, write the data to the file passed to the class constructor.
 ```
 const buffer = Buffer.from(text);
@@ -59,6 +59,10 @@ rw.exists
 rw.stats
 ```
 The *stats* object holds many important pieces of information about the file such as its size. More information can be found [here](https://nodejs.org/api/fs.html#class-fsstats).
+Once we have sufficiently used the *file descriptor*, we can remove it from those available to us. We do this through the *close* method.
+```
+rw.close();
+```
 
 ## Project Status
 As this code is intended to be a part of a project in itself, this project is still in progress and will be until that project is completed. 

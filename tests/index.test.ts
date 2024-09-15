@@ -53,6 +53,10 @@ describe("Reading & Writing", () => {
 			const isEqual = utils.areBuffersEqual(rw.data, newBuffer.buffer);
 			expect(isEqual).toBeTruthy();
 		 });
+		 test("Should be closed.", () => {
+			const fd = rw.close();
+			expect(fd).toBeUndefined();
+		 });
 	  });
 	  describe("With Writing", () => {
 		 let buffSize: number;
@@ -133,17 +137,26 @@ describe("Reading & Writing", () => {
 			expect(isEqual).toBeTruthy();
 		 });
 	  });
-	  /*
 	  describe("With Writing", () => {
 		 let buffSize: number;
-		 let newBuffer: BufferBuilder;
+		 let newBuffer: Buffer;
+		 let json: [{
+			first_name: string;
+			last_name: string;
+			username: string;
+			password: string;
+			confirm_password: string;
+			email: string;
+		 }];
+		 let data: Buffer;
 		 beforeAll(() => {
-			buffSize = 100;
-			newBuffer = new BufferBuilder(buffSize);
-			newBuffer.append(Buffer.from("Hello, World!!!"));
-			filename = path.join(__dirname, "/file_write.txt");
+			buffSize = 149;
+			json = [{"first_name":"John","last_name":"Hancock","username":"jhancock","password":"p4sswOrd","confirm_password":"p4sswOrd","email":"jhancock@domain.com"}];
+			const jsonBuffer = Buffer.from(JSON.stringify(json))
+			newBuffer = Buffer.from(jsonBuffer);
+			filename = path.join(__dirname, "/users/users.json");
 			rw = new RW(buffSize, filename);
-			rw.data = Buffer.from("Hello, World!!!");
+			rw.data = Buffer.from(jsonBuffer);
 			rw.write();
 		 });
 		 test("Should exist.", () => {
@@ -160,11 +173,14 @@ describe("Reading & Writing", () => {
 		 });
 		 test("Should have 'data'", () => {
 			rw.read();
-			newBuffer.build();
-			const isEqual = utils.areBuffersEqual(rw.data, newBuffer.buffer);
+			data = rw.data;
+			const isEqual = utils.areBuffersEqual(rw.data, newBuffer);
 			expect(isEqual).toBeTruthy();
 		 });
+		 test("Should be the object.", () => {
+			const dataJSON = JSON.parse(data.toString());
+			expect(dataJSON).toEqual(json);
+		 });
 	  });
-	 */
    });
 });
